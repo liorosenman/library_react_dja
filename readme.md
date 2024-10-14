@@ -10,7 +10,9 @@
     8. Customer table was created.
     9. Serializers for Customer and User were created.
 
+# Register form fields input validation
+    Done but was not tested.
 # Register method
-    
+    Works (without the decorator of input validity)
     
 
