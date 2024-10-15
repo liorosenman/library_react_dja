@@ -9,14 +9,14 @@ from rest_framework import status, viewsets
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-from .Input_validity  import validate_registration
+from .Input_validity import validate_registration
 
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
     
-    # @validate_registration
+    @validate_registration
     @action(detail=False, methods=['post'], url_path='register')
     def register(self, request):
                 user = User.objects.create_user(

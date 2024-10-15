@@ -14,5 +14,5 @@
     Done but was not tested.
 # Register method
     Works (without the decorator of input validity)
-    
+    With @input_validity --- error: "detail": "Method \"POST\" not allowed."
 

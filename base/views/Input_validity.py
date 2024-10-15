@@ -6,7 +6,6 @@ def validate_registration(register):
     def wrapper(request, *args, **kwargs):
         data = request.data
         errors = []
-        
         # Validating username
         if not data.get('username') or User.objects.filter(username=data['username']).exists():
             errors.append('Username is required and must be unique.')
@@ -35,6 +34,7 @@ def validate_registration(register):
         if errors:
             return Response({'errors': errors}, status=400)
         
-        return register(request, *args, **kwargs)
+        # return register(request, *args, **kwargs)
+        return register(request)
     
     return wrapper
