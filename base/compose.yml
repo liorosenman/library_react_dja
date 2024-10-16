@@ -7,9 +7,10 @@ services:
       POSTGRES_PASSWORD: mypassword
       POSTGRES_DB: library
     ports:
-      - "4321:4321"
+      - "5432:5432"
     networks:
-      - pg_network
+      pg_network:
+          ipv4_address: 172.18.0.2
 
   pgadmin:
     image: dpage/pgadmin4
@@ -24,3 +25,6 @@ services:
 networks:
   pg_network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16

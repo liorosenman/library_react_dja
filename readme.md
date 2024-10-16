@@ -15,4 +15,5 @@
 # Register method
     Works (without the decorator of input validity)
     With @input_validity --- error: "detail": "Method \"POST\" not allowed."
+# Compose file of pgadmin and postgres
 
