@@ -16,4 +16,8 @@
     Works (without the decorator of input validity)
     With @input_validity --- error: "detail": "Method \"POST\" not allowed."
 # Compose file of pgadmin and postgres
-
+    Problems in setting up and configuring the compose file.
+    ** Open pgadmin in http://localhost:8080/browser/
+       General Name = library
+       Host name/address = postgres
+       Password = admin123

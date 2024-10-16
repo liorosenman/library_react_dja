@@ -82,7 +82,7 @@ DATABASES = {
         'USER': 'myuser',
         'PASSWORD': 'mypassword',
         'HOST': 'localhost',  
-        'PORT': '4321',
+        'PORT': '5432',
     }
 }
 

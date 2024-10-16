@@ -9,8 +9,8 @@ services:
     ports:
       - "5432:5432"
     networks:
-      pg_network:
-          ipv4_address: 172.18.0.2
+      pg_network:  # Changed from a list to a dictionary format
+        ipv4_address: 172.19.0.2
 
   pgadmin:
     image: dpage/pgadmin4
@@ -20,11 +20,12 @@ services:
     ports:
       - "8080:80"
     networks:
-      - pg_network
+      pg_network:  # Changed from a list to a dictionary format
+        ipv4_address: 172.19.0.3
 
 networks:
   pg_network:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.18.0.0/16
+        - subnet: 172.19.0.0/16
