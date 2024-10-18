@@ -10,12 +10,12 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from .Input_validity import validate_registration
+from django.urls import path
 
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
-    
     @validate_registration
     @action(detail=False, methods=['post'], url_path='register')
     def register(self, request):
@@ -32,3 +32,26 @@ class CustomerViewSet(viewsets.ModelViewSet):
                 customer = Customer.objects.create(user=user,name=name,city=city,age=age)
                 customer.save()
                 return Response({"message": "Customer registered successfully."}, status=status.HTTP_201_CREATED)
+    
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['username'] = user.username
+        token['id'] = user.id
+        token['is_superuser'] = user.is_superuser
+        return token
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+@api_view(['POST'])
+def logout_user(request):
+    try:
+        refresh_token = request.data.get('refresh_token')
+        token = RefreshToken(refresh_token)
+        token.blacklist()
+        return Response({"message": "User logged out successfully and token blacklisted."}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+

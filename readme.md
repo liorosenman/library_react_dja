@@ -9,6 +9,7 @@
     7. List all tables --- \dt
     8. Customer table was created.
     9. Serializers for Customer and User were created.
+    10. Book models was created, with two enums
 
 # Register form fields input validation
     Done but was not tested.
@@ -21,3 +22,14 @@
        General Name = library
        Host name/address = postgres
        Password = admin123
+    === Compose file working, pgadmin and postgres work
+# Stored procedures
+Every time I load the program, the procedures will load up automatically.
+
+# DB
+In addition to the models, enums should be saved as well.
+Initializing file named init.sql, in which procedures will be created.
+Model book was created, in pgadmin too.
+
+# Login, token and Logout -
+---working---
