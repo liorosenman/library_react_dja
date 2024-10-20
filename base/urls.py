@@ -1,13 +1,15 @@
 from django import views
 from django.contrib import admin
 from django.urls import include, path
+from base.views.books_view import BookViewSet
 from base.views.customer_views import CustomerViewSet, logout_user
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 router = DefaultRouter()
-router.register(r'customers', CustomerViewSet)
+router.register(r'customers', CustomerViewSet, basename='customer')
+router.register(r'books', BookViewSet, basename='book')
 
 urlpatterns = [
     path('', include(router.urls)),

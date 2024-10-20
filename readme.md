@@ -12,24 +12,27 @@
     10. Book models was created, with two enums
 
 # Register form fields input validation
-    Done but was not tested.
+    With @input_validity decorator --- error: "detail": "Method \"POST\" not allowed."
+    !!! Same error with valid input.
 # Register method
     Works (without the decorator of input validity)
-    With @input_validity --- error: "detail": "Method \"POST\" not allowed."
-# Compose file of pgadmin and postgres
-    Problems in setting up and configuring the compose file.
+    
+# === Compose file of pgadmin and postgres
+    === Problems in setting up and configuring the compose file.
     ** Open pgadmin in http://localhost:8080/browser/
        General Name = library
        Host name/address = postgres
        Password = admin123
     === Compose file working, pgadmin and postgres work
+
 # Stored procedures
 Every time I load the program, the procedures will load up automatically.
 
 # DB
-In addition to the models, enums should be saved as well.
+??? In addition to the models, enums should be saved as well.
 Initializing file named init.sql, in which procedures will be created.
-Model book was created, in pgadmin too.
+=== Model book was created, in pgadmin too.
+=== Model loan was created, in pgadmin too.
 
-# Login, token and Logout -
+# Login, token and Logout
 ---working---

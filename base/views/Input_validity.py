@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 import re
 
 def validate_registration(register):
-    def wrapper(request, *args, **kwargs):
+    def wrapper(self, request, *args, **kwargs):
         data = request.data
         errors = []
         # Validating username
@@ -12,6 +12,7 @@ def validate_registration(register):
 
         # Validating password
         password = data.get('password', '')
+        # print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         if len(password) < 6 or len(password) > 12 or not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
             errors.append('Password must be between 6 and 12 characters and contain at least one special character.')
 
@@ -34,7 +35,7 @@ def validate_registration(register):
         if errors:
             return Response({'errors': errors}, status=400)
         
-        # return register(request, *args, **kwargs)
-        return register(request)
+        return register(self, request, *args, **kwargs)
+        # return register(request)
     
     return wrapper

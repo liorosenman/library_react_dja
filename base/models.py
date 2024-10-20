@@ -2,6 +2,7 @@ import enum
 from django.db import models
 from django.contrib.auth.models import User
 from enum import Enum
+from django.utils import timezone
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -51,4 +52,14 @@ class Book(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Loan(models.Model):
+    CustID = models.ForeignKey('Customer', on_delete=models.CASCADE) 
+    BookID = models.ForeignKey('Book', on_delete=models.CASCADE)
+    Loandate = models.DateField(default=timezone.now)  
+    Returndate = models.DateField(null=True, blank=True)  
+
+    def __str__(self):
+        return f'Loan: {self.CustID} - {self.BookID}'    
+
 
