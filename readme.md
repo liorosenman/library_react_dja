@@ -33,6 +33,8 @@ Every time I load the program, the procedures will load up automatically.
 Initializing file named init.sql, in which procedures will be created.
 === Model book was created, in pgadmin too.
 === Model loan was created, in pgadmin too.
+!!! Uploading images (books) saves as null
+=== Adding a book works.
 
 # Login, token and Logout
 ---working---

@@ -16,7 +16,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
-    @validate_registration
+    # @validate_registration
     @action(detail=False, methods=['post'], url_path='register')
     def register(self, request):
                 user = User.objects.create_user(
