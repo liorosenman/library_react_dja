@@ -6,6 +6,7 @@ from rest_framework import status, viewsets
 from rest_framework.response import Response
 from base.utils import extract_parameters_from_request
 
+
 # from customer_views import MyTokenObtainPairSerializer
 
 class BookViewSet(viewsets.ModelViewSet):
@@ -25,11 +26,25 @@ class BookViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         if not request.user.is_superuser:
             return Response({"detail": "You are not authorized to add books."}, status=status.HTTP_403_FORBIDDEN)
-        parameters = extract_parameters_from_request(request)
+        # parameters = extract_parameters_from_request(request)
         proc_name = 'add_book'
-        param_list = list(parameters.values())
-        with connection.cursor() as cursor:
-            cursor.callproc(proc_name, param_list)
+        print(request.data.get('borrow_time'))
+        param_list = [
+            request.data.get('name'),
+            request.data.get('author'),
+            int(request.data.get('year_published')),
+            int(request.data.get('borrow_time')),
+            request.data.get('filename'),
+            request.data.get('status')
+        ]
+        # param_list = list(parameters.values())
+        try:
+            with connection.cursor() as cursor:
+                # cursor.callproc(proc_name, param_list)
+                cursor.execute("CALL add_book(%s, %s, %s, %s, %s, %s);", param_list)
+            return Response({"detail": "Book added successfully."}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

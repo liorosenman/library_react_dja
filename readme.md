@@ -38,3 +38,6 @@ Initializing file named init.sql, in which procedures will be created.
 
 # Login, token and Logout
 ---working---
+
+# Link stored procedures from init.sql file to postgres
+Using the compose.yml file, not working
