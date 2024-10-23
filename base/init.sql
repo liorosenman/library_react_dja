@@ -1,4 +1,3 @@
--- Create the stored procedure for inserting a book
 CREATE OR REPLACE PROCEDURE add_book(
     p_name VARCHAR,
     p_author VARCHAR,
@@ -16,12 +15,18 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE PROCEDURE add_customer(
+    p_username VARCHAR,
+    p_password VARCHAR,
+    P_name VARCHAR,
+    p_city VARCHAR,
+    p_age INT,
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
 
-CALL add_book(
-    'Hammlet',
-    'Shakespear',
-    1750,
-    1,  
-    'pic1.jpg',
-    'available' 
-);
+END
+AS $$
+
+

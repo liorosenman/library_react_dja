@@ -34,15 +34,25 @@ class BookViewSet(viewsets.ModelViewSet):
         year_published = int(request.data.get('year_published')),
         borrow_time = int(request.data.get('borrow_time')),
         filename = request.data.get('filename'),
-        status = request.data.get('status')
+        status_value = request.data.get('status')
         # param_list = list(parameters.values())
+        print(name)
         try:
             with connection.cursor() as cursor:
+            #     cursor.callproc('add_book', [
+            #         name, 
+            #         author, 
+            #         year_published, 
+            #         borrow_time, 
+            #         filename, 
+            #         status_value
+            #     ])
+                # cursor.execute("CALL add_book('expbook', 'noauthor', 2024, 5, 'pic2.png', 'available');")
                 # cursor.callproc(proc_name, param_list)
-                cursor.execute("CALL add_book(%s, %s, %s, %s, %s, %s);", (name, author, year_published, borrow_time, filename,status))
-            return Response({"detail": "Book added successfully."})
+                cursor.execute("CALL add_book(%s, %s, %s, %s, %s, %s);", [name, author, year_published, borrow_time, filename, status_value])
+            return Response({'message': 'Book added successfully!'}, status=status.HTTP_201_CREATED)
         except Exception as e:
-            return Response({"detail": str(e)})
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
