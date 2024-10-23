@@ -1,11 +1,12 @@
 CREATE OR REPLACE PROCEDURE add_book(
-    p_name VARCHAR,
-    p_author VARCHAR,
-    p_year_published INT,
-    p_borrow_time INT,
-    p_filename VARCHAR,
-    p_status VARCHAR DEFAULT 'available'
+    p_name TEXT,
+    p_author TEXT,
+    p_year_published INTEGER,
+    p_borrow_time INTEGER,
+    p_filename TEXT,
+    p_status TEXT DEFAULT 'available'
 )
+-- RETURNS VOID AS $$
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -15,18 +16,36 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE add_customer(
-    p_username VARCHAR,
-    p_password VARCHAR,
-    P_name VARCHAR,
-    p_city VARCHAR,
-    p_age INT,
-)
+-- CREATE OR REPLACE PROCEDURE add_customer(
+--     p_username TEXT,
+--     p_password TEXT,
+--     P_name TEXT,
+--     p_city TEXT,
+--     p_age INTEGER,
+-- )
+
+
+-- CREATE OR REPLACE PROCEDURE get_all_customers()
+-- LANGUAGE plpgsql
+-- AS $$
+-- BEGIN
+--     SELECT * FROM base_customer;
+-- END;
+-- $$;
+-- -----------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION get_all_customers()
+RETURNS TABLE(id INT, name TEXT, city TEXT, age INTEGER)
 LANGUAGE plpgsql
 AS $$
 BEGIN
+    RETURN QUERY
+    SELECT id, name, city, age
+    FROM base_customer;
+END;
+$$;
 
-END
-AS $$
+
+
+
 
 

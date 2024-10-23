@@ -1,3 +1,4 @@
+from django.db import connection
 from django.shortcuts import render
 from base.models import Customer
 from base.serializers import CustomerSerializer
@@ -32,6 +33,18 @@ class CustomerViewSet(viewsets.ModelViewSet):
                 customer = Customer.objects.create(user=user,name=name,city=city,age=age)
                 customer.save()
                 return Response({"message": "Customer registered successfully."}, status=status.HTTP_201_CREATED)
+    
+    def list(self, request):
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM get_all_customers()")
+                rows = cursor.fetchall() 
+                print(rows)
+                columns = [col[0] for col in cursor.description]
+                users = [dict(zip(columns, row)) for row in rows]  # Create dict for each row
+            return Response(users, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod

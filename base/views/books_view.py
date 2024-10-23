@@ -29,11 +29,11 @@ class BookViewSet(viewsets.ModelViewSet):
         # parameters = extract_parameters_from_request(request)
         proc_name = 'add_book'
         print(request.data.get('borrow_time'))
-        name = request.data.get('name'),
-        author = request.data.get('author'),
-        year_published = int(request.data.get('year_published')),
-        borrow_time = int(request.data.get('borrow_time')),
-        filename = request.data.get('filename'),
+        name = request.data.get('name')
+        author = request.data.get('author')
+        year_published = int(request.data.get('year_published'))
+        borrow_time = int(request.data.get('borrow_time'))
+        filename = request.data.get('filename')
         status_value = request.data.get('status')
         # param_list = list(parameters.values())
         print(name)
@@ -53,6 +53,8 @@ class BookViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Book added successfully!'}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
 
 
 
