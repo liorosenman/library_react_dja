@@ -12,12 +12,21 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from .Input_validity import validate_registration
 from django.urls import path
+import psycopg2
+
+connection = psycopg2.connect(
+    user="myuser",
+    password="mypassword",
+    host="localhost",
+    port="5432",
+    database="library"
+)
 
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
-    # @validate_registration
+    @validate_registration
     @action(detail=False, methods=['post'], url_path='register')
     def register(self, request):
                 user = User.objects.create_user(
@@ -37,11 +46,12 @@ class CustomerViewSet(viewsets.ModelViewSet):
     def list(self, request):
         try:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM get_all_customers()")
+                cursor.execute("SELECT * FROM public.get_all_customers()")
                 rows = cursor.fetchall() 
-                print(rows)
                 columns = [col[0] for col in cursor.description]
-                users = [dict(zip(columns, row)) for row in rows]  # Create dict for each row
+                users = [dict(zip(columns, row)) for row in rows]
+            cursor.close()
+            connection.close()
             return Response(users, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)

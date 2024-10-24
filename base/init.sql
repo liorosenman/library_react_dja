@@ -33,16 +33,26 @@ $$;
 -- END;
 -- $$;
 -- -----------------------------------------------------------------------
+-- CREATE OR REPLACE FUNCTION get_all_customers()
+-- RETURNS TABLE(id INTEGER, name TEXT, city TEXT, age INTEGER)
+-- LANGUAGE plpgsql
+-- AS $$
+-- BEGIN
+--     RETURN QUERY
+--     SELECT c.id, c.name, c.city, c.age
+--     FROM base_customer c;
+-- END;
+-- $$;
+
 CREATE OR REPLACE FUNCTION get_all_customers()
-RETURNS TABLE(id INT, name TEXT, city TEXT, age INTEGER)
-LANGUAGE plpgsql
-AS $$
+RETURNS TABLE(user_id INTEGER, username TEXT, name TEXT, city TEXT, age INTEGER) AS $$
 BEGIN
     RETURN QUERY
-    SELECT id, name, city, age
-    FROM base_customer;
-END;
-$$;
+    SELECT u.id AS user_id, u.username, c.name, c.city, c.age
+    FROM auth_user u  
+    JOIN base_customer c ON c.user_id = u.id;  
+END; $$ LANGUAGE plpgsql;
+
 
 
 

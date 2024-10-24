@@ -40,4 +40,10 @@ Initializing file named init.sql, in which procedures will be created.
 ---working---
 
 # Link stored procedures from init.sql file to postgres
-Using the compose.yml file, not working
+Using the compose.yml file and 0007 migration, the
+1. python code recognizes the SP (get_all_customers) but "id column is ambiguous".
+2. Suggested solution: make an alias for the table and write for each column: c.id (for example) - doesn't work.
+3. Suggested - Elaborate the definition of the "connection" object.
+4. Suggested - Using inner join with the auth_user table.
+
+

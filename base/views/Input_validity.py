@@ -12,7 +12,6 @@ def validate_registration(register):
 
         # Validating password
         password = data.get('password', '')
-        # print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         if len(password) < 6 or len(password) > 12 or not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
             errors.append('Password must be between 6 and 12 characters and contain at least one special character.')
 
