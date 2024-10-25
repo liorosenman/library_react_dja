@@ -14,25 +14,15 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
 
-    # def create(self, request, *args, **kwargs):
-    #     if not request.user.is_superuser:
-    #         return Response({"detail": "You are not authorized to add books."}, status=status.HTTP_403_FORBIDDEN)
-    #     serializer = self.get_serializer(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save() 
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     def create(self, request, *args, **kwargs):
         if not request.user.is_superuser:
             return Response({"detail": "You are not authorized to add books."}, status=status.HTTP_403_FORBIDDEN)
-        # parameters = extract_parameters_from_request(request)
         proc_name = 'add_book'
         print(request.data.get('borrow_time'))
         name = request.data.get('name')
         author = request.data.get('author')
-        year_published = int(request.data.get('year_published'))
-        borrow_time = int(request.data.get('borrow_time'))
+        year_published = request.data.get('year_published')
+        borrow_time = request.data.get('borrow_time')
         filename = request.data.get('filename')
         status_value = request.data.get('status')
         # param_list = list(parameters.values())
@@ -48,7 +38,8 @@ class BookViewSet(viewsets.ModelViewSet):
             #         status_value
             #     ])
                 # cursor.execute("CALL add_book('expbook', 'noauthor', 2024, 5, 'pic2.png', 'available');")
-                # cursor.callproc(proc_name, param_list)
+                # cursor.callproc(proc_name,[name, author, year_published, borrow_time, filename, status_value])
+                print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
                 cursor.execute("CALL add_book(%s, %s, %s, %s, %s, %s);", [name, author, year_published, borrow_time, filename, status_value])
             return Response({'message': 'Book added successfully!'}, status=status.HTTP_201_CREATED)
         except Exception as e:

@@ -44,17 +44,31 @@ class CustomerViewSet(viewsets.ModelViewSet):
                 return Response({"message": "Customer registered successfully."}, status=status.HTTP_201_CREATED)
     
     def list(self, request):
+        print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
         try:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM public.get_all_customers()")
+                cursor.execute("SELECT * FROM get_all_customers();")
                 rows = cursor.fetchall() 
-                columns = [col[0] for col in cursor.description]
-                users = [dict(zip(columns, row)) for row in rows]
-            cursor.close()
-            connection.close()
-            return Response(users, status=status.HTTP_200_OK)
+            # columns = [col[0] for col in cursor.description]
+            # users = [dict(zip(columns, row)) for row in rows]
+            # cursor.close()
+            # connection.close()
+            print(rows)
+            return Response(rows, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+       
+@action(detail=False, methods=['get'])
+def show_all_customers(request):
+    with connection.cursor() as cursor:
+        cursor.execute("CALL get_all_customers(%s);", ["my_cursor"])
+        # cursor.callproc("get_all_customers", ["my_cursor"])
+        cursor.execute('FETCH ALL IN "my_cursor";')
+        rows = cursor.fetchall()
+        columns = [col[0] for col in cursor.description]  
+        results = [dict(zip(columns, row)) for row in rows]
+    return Response(results)
     
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod

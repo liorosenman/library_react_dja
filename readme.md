@@ -46,4 +46,8 @@ Using the compose.yml file and 0007 migration, the
 3. Suggested - Elaborate the definition of the "connection" object.
 4. Suggested - Using inner join with the auth_user table.
 
+# Register method
+1. Validating 'age' field - there is not 'isdigit' in int variables.
+    I should have added @wraps(register) above --- def validate_registration(register):
+
 

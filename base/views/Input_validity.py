@@ -1,8 +1,10 @@
+from functools import wraps
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 import re
 
 def validate_registration(register):
+    @wraps(register)
     def wrapper(self, request, *args, **kwargs):
         data = request.data
         errors = []
@@ -27,8 +29,10 @@ def validate_registration(register):
         
         #Validating age
         age = data.get('age', '')
-        if not age.isdigit():
-            errors.append('Age must be a number.')
+        try:
+            age = int(age)  # Try converting age to an integer
+        except ValueError:
+            errors.append('Age must be an integer')
         
         # If there are errors, return them all at once
         if errors:

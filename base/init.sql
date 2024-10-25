@@ -6,7 +6,7 @@ CREATE OR REPLACE PROCEDURE add_book(
     p_filename TEXT,
     p_status TEXT DEFAULT 'available'
 )
--- RETURNS VOID AS $$
+
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -44,14 +44,50 @@ $$;
 -- END;
 -- $$;
 
-CREATE OR REPLACE FUNCTION get_all_customers()
-RETURNS TABLE(user_id INTEGER, username TEXT, name TEXT, city TEXT, age INTEGER) AS $$
+-- CREATE OR REPLACE FUNCTION get_all_customers()
+-- RETURNS TABLE (
+--     id INT,
+--     username VARCHAR,
+--     password VARCHAR,
+--     name VARCHAR,
+--     city VARCHAR,
+--     age INT
+-- ) AS $$
+-- BEGIN
+--     RETURN QUERY
+--     SELECT 
+--         u.id,
+--         u.username,
+--         u.password,
+--         c.name,
+--         c.city,
+--         c.age
+--     FROM 
+--         base_customer c
+--     JOIN 
+--         auth_user u ON c.user_id = u.id;
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE get_all_customers(INOUT ref refcursor)
+AS $$
 BEGIN
-    RETURN QUERY
-    SELECT u.id AS user_id, u.username, c.name, c.city, c.age
-    FROM auth_user u  
-    JOIN base_customer c ON c.user_id = u.id;  
-END; $$ LANGUAGE plpgsql;
+    OPEN ref FOR
+    SELECT 
+        u.id,
+        u.username,
+        u.password,
+        c.name,
+        c.city,
+        c.age
+    FROM 
+        base_customer c
+    JOIN 
+        auth_user u ON c.user_id = u.id;
+END;
+$$ LANGUAGE plpgsql;
+
+
 
 
 
