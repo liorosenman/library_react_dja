@@ -16,6 +16,16 @@ BEGIN
 END;
 $$;
 
+-----------------------------------------------------------------------------------
+
+CREATE OR REPLACE PROCEDURE get_all_customers()
+RETURNS TABLE(id INT, name VARCHAR, city VARCHAR, age INT) AS $$
+BEGIN
+    RETURN QUERY SELECT id, name, city, age FROM base_customer;
+END;
+$$ LANGUAGE plpgsql;
+
+
 -- CREATE OR REPLACE PROCEDURE add_customer(
 --     p_username TEXT,
 --     p_password TEXT,
@@ -69,10 +79,39 @@ $$;
 -- END;
 -- $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE PROCEDURE get_all_customers(INOUT ref refcursor)
-AS $$
+-- CREATE OR REPLACE PROCEDURE get_all_customers(INOUT ref refcursor)
+-- $$ LANGUAGE plpgsql;
+-- AS $$
+-- BEGIN
+--     OPEN ref FOR
+--     SELECT 
+--         u.id,
+--         u.username,
+--         u.password,
+--         c.name,
+--         c.city,
+--         c.age
+--     FROM 
+--         base_customer c
+--     JOIN 
+--         auth_user u ON c.user_id = u.id;
+-- END;
+
+
+-- CREATE OR REPLACE PROCEDURE get_all_customers(OUT id INT, OUT name TEXT, OUT city TEXT, OUT age INT)
+-- LANGUAGE plpgsql
+-- AS $$
+-- BEGIN
+--     FOR id, name, city, age IN SELECT id, name, city, age FROM Customer LOOP
+--         RETURN NEXT;
+--     END LOOP;
+-- END;
+-- $$;
+
+CREATE OR REPLACE FUNCTION get_all_customers()
+RETURNS SETOF RECORD AS $$
 BEGIN
-    OPEN ref FOR
+    RETURN QUERY
     SELECT 
         u.id,
         u.username,
@@ -86,6 +125,8 @@ BEGIN
         auth_user u ON c.user_id = u.id;
 END;
 $$ LANGUAGE plpgsql;
+
+
 
 
 

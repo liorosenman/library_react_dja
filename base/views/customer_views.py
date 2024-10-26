@@ -47,11 +47,18 @@ class CustomerViewSet(viewsets.ModelViewSet):
         print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
         try:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM get_all_customers();")
-                rows = cursor.fetchall() 
+                #  cursor_name = 'customer_cursor'
+                #  cursor.execute("CALL get_all_customers(%s::refcursor);", (cursor_name,))
+                #  cursor.execute(f"FETCH ALL IN {cursor_name};")
+                cursor.execute("SELECT * FROM base_customer;")
+                # cursor.callproc('get_all_customers')
+                rows = cursor.fetchall()
+                
+                # cursor.execute("SELECT * FROM get_all_customers();")
+                # rows = cursor.fetchall() 
             # columns = [col[0] for col in cursor.description]
             # users = [dict(zip(columns, row)) for row in rows]
-            # cursor.close()
+                cursor.close()
             # connection.close()
             print(rows)
             return Response(rows, status=status.HTTP_200_OK)

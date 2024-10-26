@@ -50,4 +50,13 @@ Using the compose.yml file and 0007 migration, the
 1. Validating 'age' field - there is not 'isdigit' in int variables.
     I should have added @wraps(register) above --- def validate_registration(register):
 
+# Get all customers:
+Lot of errors: "Function/Procedure doesn't exist",
+"Id field is ambiguous".
+I have tried combinations of procedure-function.
+Been tried adding the cursor as an argument.
+Changing between CALL and SELECT.
+=== Eventually - Calling select command to the table directly === Working.
+
+
 
